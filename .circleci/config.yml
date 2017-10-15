@@ -36,7 +36,7 @@ jobs:
       #    command: |
       #      # make sure you're not using `--rm` option otherwise container will be killed after finish
       #      TAG=$CIRCLE_SHA1
-      #      docker run -d -p 8080:80 --name wordpress-app yoichikawasaki/wordpress-app:$TAG 
+      #      docker run -d -e -e WORDPRESS_DB_HOST=$MYSQL_HOST -e WORDPRESS_DB_USER=$MYSQL_USER_USER -e WORDPRESS_DB_PASSWORD=$MYSQL_USER_PASS -p 8080:80 --name wordpress-app yoichikawasaki/wordpress-app:$TAG 
       #      sleep 10 && docker exec wordpress-app curl --retry 3 --retry-delay 3 http://localhost:8080
        
       - run:
@@ -47,5 +47,6 @@ jobs:
               docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
               docker push yoichikawasaki/wordpress-app:$TAG
               az login --service-principal -u $AZURE_USER -p $AZURE_PASSWORD --tenant $AZURE_TENANT
+              az webapp config appsettings set --name $AZURE_APP_NAME --resource-group $AZURE_RESOURCE_GROUP --settings WORDPRESS_DB_HOST=$MYSQL_HOST WORDPRESS_DB_USER=$MYSQL_USER_USER WORDPRESS_DB_PASSWORD=$MYSQL_USER_PASS
               az webapp config container set --name $AZURE_APP_NAME --resource-group $AZURE_RESOURCE_GROUP -c "yoichikawasaki/wordpress-app:$TAG"
             fi
