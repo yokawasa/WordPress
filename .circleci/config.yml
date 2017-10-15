@@ -36,8 +36,8 @@ jobs:
       #    command: |
       #      # make sure you're not using `--rm` option otherwise container will be killed after finish
       #      TAG=$CIRCLE_SHA1
-      #      docker run -d -p 8000:80 --name wordpress-app yoichikawasaki/wordpress-app:$TAG 
-      #      sleep 10 && docker exec wordpress-app curl --retry 3 --retry-delay 3 http://localhost:8000
+      #      docker run -d -p 8080:80 --name wordpress-app yoichikawasaki/wordpress-app:$TAG 
+      #      sleep 10 && docker exec wordpress-app curl --retry 3 --retry-delay 3 http://localhost:8080
        
       - run:
           name: Push Docker image and Update Azure Web App with the image

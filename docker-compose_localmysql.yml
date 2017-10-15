@@ -18,7 +18,7 @@ services:
      build: .
      image: mywpapp:0.0.1
      ports:
-       - "8000:80"
+       - "8080:80"
      restart: always
      environment:
        WORDPRESS_DB_HOST: db:3306
