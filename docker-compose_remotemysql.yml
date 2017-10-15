@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+   wordpress:
+     build: .
+     image: mywpapp:0.0.1
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: yoichikamysql.mysql.database.azure.com:3306
+       WORDPRESS_DB_USER: yoichika@yoichikamysql
+       WORDPRESS_DB_PASSWORD: asdba3337_____
