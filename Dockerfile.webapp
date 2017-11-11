@@ -1,10 +1,15 @@
 FROM php:7.0-apache
 
+# ENV setup
+ENV WORDPRESS_HOME "/home/site/wwwroot"
+ENV SSH_PASSWD "root:Docker!"
+
 # install the PHP extensions we need
 RUN set -ex; \
 	\
 	apt-get update; \
-	apt-get install -y libjpeg-dev libpng-dev; \
+	apt-get install -y libjpeg-dev libpng-dev ; \
+    apt-get install -y --no-install-recommends vim openssh-server; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
 	docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
@@ -25,9 +30,19 @@ RUN a2enmod rewrite expires
 
 COPY . /usr/src/wordpress
 RUN set -ex; \
+    echo "root:Docker!" | chpasswd; \
     mv /usr/src/wordpress/docker-entrypoint.sh /usr/local/bin/; \
-    rm /usr/src/wordpress/Dockerfile; \
-    chown -R www-data:www-data /usr/src/wordpress
+    mv /usr/src/wordpress/sshd_config /etc/ssh/; \
+    rm /usr/src/wordpress/Dockerfile.webapp; \
+    chown -R www-data:www-data /usr/src/wordpress; \
+    rm -rf /var/www/html; \
+    rm -rf /var/log/apache2; \
+    mkdir -p /home/LogFiles; \
+    mkdir -p /home/site/wwwroot; \
+    ln -s $WORDPRESS_HOME /var/www/html; \
+    ln -s /home/LogFiles /var/log/apache2
+
+EXPOSE 2222 8080
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
