@@ -220,4 +220,10 @@ EOPHP
 	done
 fi
 
+OPENSSH_SERVER_INSTALLED=`apt-cache policy openssh-server |grep Installed |wc -l`
+if [ "$OPENSSH_SERVER_INSTALLED" = "1" ]; then
+    echo "Starting SSH ..."
+    service ssh start
+fi
+
 exec "$@"
