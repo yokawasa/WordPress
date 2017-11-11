@@ -138,7 +138,7 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
  * @since 4.1.0 Refactored to leverage WP_Comment_Query over a direct query.
  *
  * @param  int   $post_id The ID of the post.
- * @param  array $args    Optional. See WP_Comment_Query::query() for information on accepted arguments.
+ * @param  array $args    Optional. See WP_Comment_Query::__construct() for information on accepted arguments.
  * @return int|array $comments The approved comments, or number of comments if `$count`
  *                             argument is true.
  */
@@ -217,7 +217,7 @@ function get_comment( &$comment = null, $output = OBJECT ) {
  *
  * @since 2.7.0
  *
- * @param string|array $args Optional. Array or string of arguments. See WP_Comment_Query::parse_query()
+ * @param string|array $args Optional. Array or string of arguments. See WP_Comment_Query::__construct()
  *                           for information on accepted arguments. Default empty.
  * @return int|array List of comments or number of found comments if `$count` argument is true.
  */
@@ -769,9 +769,11 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	 * Filters a comment's approval status before it is set.
 	 *
 	 * @since 2.1.0
+	 * @since 4.9.0 Returning a WP_Error value from the filter will shortcircuit comment insertion and
+	 *              allow skipping further processing.
 	 *
-	 * @param bool|string $approved    The approval status. Accepts 1, 0, or 'spam'.
-	 * @param array       $commentdata Comment data.
+	 * @param bool|string|WP_Error $approved    The approval status. Accepts 1, 0, 'spam' or WP_Error.
+	 * @param array                $commentdata Comment data.
 	 */
 	$approved = apply_filters( 'pre_comment_approved', $approved, $commentdata );
 	return $approved;

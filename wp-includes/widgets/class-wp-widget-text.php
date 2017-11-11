@@ -192,8 +192,10 @@ class WP_Widget_Text extends WP_Widget {
 	public function widget( $args, $instance ) {
 		global $post;
 
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
+
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		$text = ! empty( $instance['text'] ) ? $instance['text'] : '';
 		$is_visual_text_widget = ( ! empty( $instance['visual'] ) && ! empty( $instance['filter'] ) );
@@ -290,7 +292,7 @@ class WP_Widget_Text extends WP_Widget {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
 
-		$text = preg_replace_callback( '#<[^>]*>#', array( $this, 'inject_video_max_width_style' ), $text );
+		$text = preg_replace_callback( '#<(video|iframe|object|embed)\s[^>]*>#i', array( $this, 'inject_video_max_width_style' ), $text );
 
 		?>
 			<div class="textwidget"><?php echo $text; ?></div>
