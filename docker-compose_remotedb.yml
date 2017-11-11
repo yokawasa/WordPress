@@ -2,12 +2,15 @@ version: '3'
 
 services:
    wordpress:
-     build: .
+     build:
+        context: .
+        dockerfile: Dockerfile.webapp
      image: wordpress-app:0.0.1
      ports:
-       - "8080:8080"
+       - "8080:80"
        - "2222:2222"
      restart: always
+     domainname: localhost
      environment:
        WORDPRESS_DB_HOST: <mysql_host>:<port>
        WORDPRESS_DB_USER: <mysql_user>

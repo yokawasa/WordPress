@@ -42,7 +42,7 @@ RUN set -ex; \
     ln -s $WORDPRESS_HOME /var/www/html; \
     ln -s /home/LogFiles /var/log/apache2
 
-EXPOSE 2222 8080
+EXPOSE 2222 80
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]

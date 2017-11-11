@@ -15,12 +15,15 @@ services:
    wordpress:
      depends_on:
        - db
-     build: .
+     build:
+        context: .
+        dockerfile: Dockerfile.webapp
      image: wordpress-app:0.0.1
      ports:
-       - "8080:8080"
+       - "8080:80"
        - "2222:2222"
      restart: always
+     domainname: localhost
      environment:
        WORDPRESS_DB_HOST: db:3306
        WORDPRESS_DB_USER: <mysql_user>

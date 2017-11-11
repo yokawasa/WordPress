@@ -29,5 +29,9 @@ RUN set -ex; \
     rm /usr/src/wordpress/Dockerfile; \
     chown -R www-data:www-data /usr/src/wordpress
 
+EXPOSE 80
+
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
+
+
