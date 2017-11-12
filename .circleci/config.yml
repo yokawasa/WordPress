@@ -47,6 +47,6 @@ jobs:
               docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
               docker push yoichikawasaki/wordpress-app:$TAG
               az login --service-principal -u $AZURE_USER -p $AZURE_PASSWORD --tenant $AZURE_TENANT
-              az webapp config appsettings set --name $AZURE_APP_NAME --resource-group $AZURE_RESOURCE_GROUP --settings WORDPRESS_DB_HOST=$MYSQL_HOST WORDPRESS_DB_USER=$MYSQL_USER_USER WORDPRESS_DB_PASSWORD=$MYSQL_USER_PASS
+              # az webapp config appsettings set --name $AZURE_APP_NAME --resource-group $AZURE_RESOURCE_GROUP --settings WORDPRESS_DB_HOST=$MYSQL_HOST WORDPRESS_DB_USER=$MYSQL_USER_USER WORDPRESS_DB_PASSWORD=$MYSQL_USER_PASS
               az webapp config container set --name $AZURE_APP_NAME --resource-group $AZURE_RESOURCE_GROUP -c "yoichikawasaki/wordpress-app:$TAG"
             fi
